@@ -1,0 +1,397 @@
+Archive member included because of file (symbol)
+
+F:\EclipseWorkspace\stm23f07\f07_boot\lib\libstm32f0lib.a(stm32f0xx_flash.o)
+                              ./src/target.o (FLASH_Unlock)
+F:\EclipseWorkspace\stm23f07\f07_boot\lib\libstm32f0lib.a(stm32f0xx_gpio.o)
+                              ./src/target.o (GPIO_Init)
+F:\EclipseWorkspace\stm23f07\f07_boot\lib\libstm32f0lib.a(stm32f0xx_rcc.o)
+                              ./src/target.o (RCC_GetClocksFreq)
+F:\EclipseWorkspace\stm23f07\f07_boot\lib\libstm32f0lib.a(stm32f0xx_usart.o)
+                              ./src/target.o (USART_Init)
+F:\EclipseWorkspace\stm23f07\f07_boot\lib\libstm32f0lib.a(system_stm32f0xx.o)
+                              ./src/target.o (SystemInit)
+d:/program files/arm-2011.09/bin/../lib/gcc/arm-none-eabi/4.6.1/armv6-m\libgcc.a(_thumb1_case_sqi.o)
+                              ./src/update.o (__gnu_thumb1_case_sqi)
+d:/program files/arm-2011.09/bin/../lib/gcc/arm-none-eabi/4.6.1/armv6-m\libgcc.a(_thumb1_case_uqi.o)
+                              F:\EclipseWorkspace\stm23f07\f07_boot\lib\libstm32f0lib.a(stm32f0xx_rcc.o) (__gnu_thumb1_case_uqi)
+d:/program files/arm-2011.09/bin/../lib/gcc/arm-none-eabi/4.6.1/armv6-m\libgcc.a(_udivsi3.o)
+                              ./src/target.o (__aeabi_uidiv)
+d:/program files/arm-2011.09/bin/../lib/gcc/arm-none-eabi/4.6.1/armv6-m\libgcc.a(_dvmd_tls.o)
+                              d:/program files/arm-2011.09/bin/../lib/gcc/arm-none-eabi/4.6.1/armv6-m\libgcc.a(_udivsi3.o) (__aeabi_idiv0)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+FLASH            0x08000000         0x00020000         xr
+SRAM             0x20000000         0x00004000         xrw
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD ./src/main.o
+LOAD ./src/target.o
+LOAD ./src/update.o
+LOAD F:\EclipseWorkspace\stm23f07\f07_boot\lib\libstm32f0lib.a
+START GROUP
+LOAD d:/program files/arm-2011.09/bin/../lib/gcc/arm-none-eabi/4.6.1/armv6-m\libgcc.a
+LOAD d:/program files/arm-2011.09/bin/../lib/gcc/arm-none-eabi/4.6.1/../../../../arm-none-eabi/lib/armv6-m\libc.a
+END GROUP
+
+.text           0x08000000     0x1b8b
+                0x08000000                _text = .
+ *(.isr_vector)
+ .isr_vector    0x08000000       0x9c ./src/main.o
+                0x08000000                vector_table
+ *(.text*)
+ .text          0x0800009c        0x0 ./src/main.o
+ .text.default_routine
+                0x0800009c        0x4 ./src/main.o
+ .text.dummy    0x080000a0        0x2 ./src/main.o
+ *fill*         0x080000a2        0x2 00
+ .text.systick_routine
+                0x080000a4       0x34 ./src/main.o
+ .text.startup.main
+                0x080000d8       0x5c ./src/main.o
+                0x080000d8                main
+ .text.reset_routine
+                0x08000134       0x3c ./src/main.o
+ .text.get_systime
+                0x08000170        0xc ./src/main.o
+                0x08000170                get_systime
+ .text          0x0800017c        0x0 ./src/target.o
+ .text.hw_init  0x0800017c       0xb0 ./src/target.o
+                0x0800017c                hw_init
+ .text.systick_open
+                0x0800022c       0x50 ./src/target.o
+                0x0800022c                systick_open
+ .text.systick_stop
+                0x0800027c       0x14 ./src/target.o
+                0x0800027c                systick_stop
+ .text.uart_send
+                0x08000290       0x1c ./src/target.o
+                0x08000290                uart_send
+ .text.uart_try_receive
+                0x080002ac       0x20 ./src/target.o
+                0x080002ac                uart_try_receive
+ .text.uart_receive
+                0x080002cc       0x1a ./src/target.o
+                0x080002cc                uart_receive
+ .text.print    0x080002e6       0x14 ./src/target.o
+                0x080002e6                print
+ *fill*         0x080002fa        0x2 00
+ .text.reset    0x080002fc       0x1c ./src/target.o
+                0x080002fc                reset
+ .text.iflash_init
+                0x08000318        0xe ./src/target.o
+                0x08000318                iflash_init
+ .text.iflash_erase
+                0x08000326        0x4 ./src/target.o
+                0x08000326                iflash_erase
+ .text.iflash_read
+                0x0800032a       0x14 ./src/target.o
+                0x0800032a                iflash_read
+ .text.iflash_write
+                0x0800033e       0x34 ./src/target.o
+                0x0800033e                iflash_write
+ .text.delay    0x08000372       0x16 ./src/target.o
+                0x08000372                delay
+ .text          0x08000388        0x0 ./src/update.o
+ .text.send_packet.constprop.0
+                0x08000388       0x1e ./src/update.o
+ .text.send_ack
+                0x080003a6       0x14 ./src/update.o
+ *fill*         0x080003ba        0x2 00
+ .text.uart_update
+                0x080003bc      0x214 ./src/update.o
+                0x080003bc                uart_update
+ .text          0x080005d0      0x544 F:\EclipseWorkspace\stm23f07\f07_boot\lib\libstm32f0lib.a(stm32f0xx_flash.o)
+                0x080005d0                FLASH_SetLatency
+                0x080005e4                FLASH_PrefetchBufferCmd
+                0x08000600                FLASH_GetPrefetchBufferStatus
+                0x08000610                FLASH_Unlock
+                0x08000630                FLASH_Lock
+                0x08000640                FLASH_OB_Unlock
+                0x08000660                FLASH_OB_Lock
+                0x08000674                FLASH_OB_Launch
+                0x08000688                FLASH_OB_GetUser
+                0x08000698                FLASH_OB_GetWRP
+                0x080006a4                FLASH_OB_GetRDP
+                0x080006b8                FLASH_ITConfig
+                0x080006d4                FLASH_GetFlagStatus
+                0x080006e4                FLASH_ClearFlag
+                0x080006f0                FLASH_GetStatus
+                0x0800073a                FLASH_ErasePage
+                0x0800076c                FLASH_EraseAllPages
+                0x08000798                FLASH_ProgramWord
+                0x080007d8                FLASH_ProgramHalfWord
+                0x08000804                FLASH_OB_Erase
+                0x0800086c                FLASH_OB_EnableWRP
+                0x080008e4                FLASH_OB_RDPConfig
+                0x08000934                FLASH_OB_UserConfig
+                0x08000978                FLASH_OB_BOOTConfig
+                0x080009b0                FLASH_OB_BOOT0Config
+                0x080009e8                FLASH_OB_BOOT0SWConfig
+                0x08000a20                FLASH_OB_VDDAConfig
+                0x08000a58                FLASH_OB_SRAMParityConfig
+                0x08000a90                FLASH_OB_WriteUser
+                0x08000ac4                FLASH_OB_ProgramData
+                0x08000af4                FLASH_WaitForLastOperation
+ .text          0x08000b14      0x1ac F:\EclipseWorkspace\stm23f07\f07_boot\lib\libstm32f0lib.a(stm32f0xx_gpio.o)
+                0x08000b14                GPIO_DeInit
+                0x08000bb8                GPIO_Init
+                0x08000c28                GPIO_StructInit
+                0x08000c40                GPIO_PinLockConfig
+                0x08000c64                GPIO_ReadInputDataBit
+                0x08000c6e                GPIO_ReadInputData
+                0x08000c72                GPIO_ReadOutputDataBit
+                0x08000c7c                GPIO_ReadOutputData
+                0x08000c80                GPIO_SetBits
+                0x08000c84                GPIO_ResetBits
+                0x08000c88                GPIO_WriteBit
+                0x08000c96                GPIO_Write
+                0x08000c9a                GPIO_PinAFConfig
+ .text          0x08000cc0      0x624 F:\EclipseWorkspace\stm23f07\f07_boot\lib\libstm32f0lib.a(stm32f0xx_rcc.o)
+                0x08000cc0                RCC_DeInit
+                0x08000d20                RCC_HSEConfig
+                0x08000d30                RCC_AdjustHSICalibrationValue
+                0x08000d44                RCC_HSICmd
+                0x08000d60                RCC_AdjustHSI14CalibrationValue
+                0x08000d74                RCC_HSI14Cmd
+                0x08000d90                RCC_HSI14ADCRequestCmd
+                0x08000dac                RCC_LSEConfig
+                0x08000dcc                RCC_LSEDriveConfig
+                0x08000de4                RCC_LSICmd
+                0x08000e00                RCC_PLLConfig
+                0x08000e20                RCC_PLLCmd
+                0x08000e44                RCC_HSI48Cmd
+                0x08000e68                RCC_PREDIV1Config
+                0x08000e7c                RCC_ClockSecuritySystemCmd
+                0x08000ea0                RCC_MCOConfig
+                0x08000eb8                RCC_SYSCLKConfig
+                0x08000ecc                RCC_GetSYSCLKSource
+                0x08000edc                RCC_HCLKConfig
+                0x08000ef0                RCC_PCLKConfig
+                0x08000f08                RCC_ADCCLKConfig
+                0x08000f38                RCC_CECCLKConfig
+                0x08000f50                RCC_I2CCLKConfig
+                0x08000f68                RCC_USARTCLKConfig
+                0x08000fa0                RCC_USBCLKConfig
+                0x08000fb8                RCC_GetClocksFreq
+                0x0800113c                RCC_RTCCLKConfig
+                0x0800114c                RCC_RTCCLKCmd
+                0x08001170                RCC_BackupResetCmd
+                0x08001194                RCC_AHBPeriphClockCmd
+                0x080011b0                RCC_APB2PeriphClockCmd
+                0x080011cc                RCC_APB1PeriphClockCmd
+                0x080011e8                RCC_AHBPeriphResetCmd
+                0x08001204                RCC_APB2PeriphResetCmd
+                0x08001220                RCC_APB1PeriphResetCmd
+                0x0800123c                RCC_ITConfig
+                0x08001258                RCC_GetFlagStatus
+                0x08001288                RCC_WaitForHSEStartUp
+                0x080012b4                RCC_ClearFlag
+                0x080012c8                RCC_GetITStatus
+                0x080012d8                RCC_ClearITPendingBit
+ .text          0x080012e4      0x59c F:\EclipseWorkspace\stm23f07\f07_boot\lib\libstm32f0lib.a(stm32f0xx_usart.o)
+                0x080012e4                USART_DeInit
+                0x080013b8                USART_Init
+                0x08001478                USART_StructInit
+                0x0800148e                USART_ClockInit
+                0x080014b0                USART_ClockStructInit
+                0x080014bc                USART_Cmd
+                0x080014d2                USART_DirectionModeCmd
+                0x080014e6                USART_OverSampling8Cmd
+                0x08001504                USART_OneBitMethodCmd
+                0x08001520                USART_MSBFirstCmd
+                0x0800153c                USART_DataInvCmd
+                0x08001558                USART_InvPinCmd
+                0x0800156c                USART_SWAPPinCmd
+                0x08001588                USART_ReceiverTimeOutCmd
+                0x080015a4                USART_SetReceiverTimeOut
+                0x080015b4                USART_SetPrescaler
+                0x080015c4                USART_STOPModeCmd
+                0x080015da                USART_StopModeWakeUpSourceConfig
+                0x080015f0                USART_AutoBaudRateCmd
+                0x0800160c                USART_AutoBaudRateConfig
+                0x08001620                USART_SendData
+                0x08001628                USART_ReceiveData
+                0x08001630                USART_SetAddress
+                0x08001642                USART_MuteModeCmd
+                0x08001660                USART_MuteModeWakeUpConfig
+                0x08001674                USART_AddressDetectionConfig
+                0x08001684                USART_LINBreakDetectLengthConfig
+                0x08001694                USART_LINCmd
+                0x080016b0                USART_HalfDuplexCmd
+                0x080016c6                USART_SetGuardTime
+                0x080016d6                USART_SmartCardCmd
+                0x080016ec                USART_SmartCardNACKCmd
+                0x08001702                USART_SetAutoRetryCount
+                0x08001718                USART_SetBlockLength
+                0x0800172a                USART_IrDAConfig
+                0x0800173a                USART_IrDACmd
+                0x08001750                USART_DECmd
+                0x0800176c                USART_DEPolarityConfig
+                0x08001780                USART_SetDEAssertionTime
+                0x08001798                USART_SetDEDeassertionTime
+                0x080017b0                USART_DMACmd
+                0x080017c4                USART_DMAReceptionErrorConfig
+                0x080017d8                USART_ITConfig
+                0x08001806                USART_RequestCmd
+                0x0800181a                USART_OverrunDetectionConfig
+                0x08001830                USART_GetFlagStatus
+                0x0800183a                USART_ClearFlag
+                0x0800183e                USART_GetITStatus
+                0x08001876                USART_ClearITPendingBit
+ .text          0x08001880      0x15c F:\EclipseWorkspace\stm23f07\f07_boot\lib\libstm32f0lib.a(system_stm32f0xx.o)
+                0x08001880                SystemInit
+                0x08001974                SystemCoreClockUpdate
+ .text          0x080019dc       0x14 d:/program files/arm-2011.09/bin/../lib/gcc/arm-none-eabi/4.6.1/armv6-m\libgcc.a(_thumb1_case_sqi.o)
+                0x080019dc                __gnu_thumb1_case_sqi
+ .text          0x080019f0       0x14 d:/program files/arm-2011.09/bin/../lib/gcc/arm-none-eabi/4.6.1/armv6-m\libgcc.a(_thumb1_case_uqi.o)
+                0x080019f0                __gnu_thumb1_case_uqi
+ .text          0x08001a04       0x9c d:/program files/arm-2011.09/bin/../lib/gcc/arm-none-eabi/4.6.1/armv6-m\libgcc.a(_udivsi3.o)
+                0x08001a04                __aeabi_uidiv
+                0x08001a04                __udivsi3
+                0x08001a8c                __aeabi_uidivmod
+ .text          0x08001aa0        0x4 d:/program files/arm-2011.09/bin/../lib/gcc/arm-none-eabi/4.6.1/armv6-m\libgcc.a(_dvmd_tls.o)
+                0x08001aa0                __aeabi_idiv0
+                0x08001aa0                __aeabi_ldiv0
+ *(.rodata*)
+ .rodata.str1.1
+                0x08001aa4       0xa8 ./src/main.o
+                                 0xab (size before relaxing)
+ .rodata.str1.1
+                0x08001b4c       0x3f ./src/update.o
+                                 0x42 (size before relaxing)
+
+.glue_7         0x08001b8c        0x0
+ .glue_7        0x00000000        0x0 linker stubs
+
+.glue_7t        0x08001b8c        0x0
+ .glue_7t       0x00000000        0x0 linker stubs
+
+.vfp11_veneer   0x08001b8c        0x0
+ .vfp11_veneer  0x00000000        0x0 linker stubs
+
+.v4_bx          0x08001b8c        0x0
+ .v4_bx         0x00000000        0x0 linker stubs
+
+.iplt           0x08001b8c        0x0
+ .iplt          0x00000000        0x0 ./src/main.o
+
+.rel.dyn        0x08001b8c        0x0
+ .rel.iplt      0x00000000        0x0 ./src/main.o
+
+.ARM.extab      0x08001b8b        0x0
+                0x08001b8c                . = ALIGN (0x4)
+ *(.ARM.extab* .gnu.linkonce.armextab.*)
+                0x08001b8c                . = ALIGN (0x4)
+
+.ARM.exidx      0x08001b8b        0x3
+                0x08001b8c                . = ALIGN (0x4)
+ *fill*         0x08001b8b        0x1 00
+                0x08001b8c                __exidx_start = .
+ *(.ARM.exidx* .gnu.linkonce.armexidx.*)
+                0x08001b8c                . = ALIGN (0x4)
+                0x08001b8c                __exidx_end = .
+                0x08001b8c                . = ALIGN (0x4)
+                0x08001b8c                _etext = .
+
+.data           0x20000000       0x24 load address 0x08001b90
+                0x20000000                . = ALIGN (0x4)
+                0x20000000                _data = .
+ *(vtable)
+ *(.data*)
+ .data          0x20000000        0x0 ./src/main.o
+ .data          0x20000000        0x0 ./src/target.o
+ .data          0x20000000        0x0 ./src/update.o
+ .data          0x20000000        0x0 F:\EclipseWorkspace\stm23f07\f07_boot\lib\libstm32f0lib.a(stm32f0xx_flash.o)
+ .data          0x20000000        0x0 F:\EclipseWorkspace\stm23f07\f07_boot\lib\libstm32f0lib.a(stm32f0xx_gpio.o)
+ .data          0x20000000       0x10 F:\EclipseWorkspace\stm23f07\f07_boot\lib\libstm32f0lib.a(stm32f0xx_rcc.o)
+ .data          0x20000010        0x0 F:\EclipseWorkspace\stm23f07\f07_boot\lib\libstm32f0lib.a(stm32f0xx_usart.o)
+ .data          0x20000010       0x14 F:\EclipseWorkspace\stm23f07\f07_boot\lib\libstm32f0lib.a(system_stm32f0xx.o)
+                0x20000010                SystemCoreClock
+                0x20000014                AHBPrescTable
+ .data          0x20000024        0x0 d:/program files/arm-2011.09/bin/../lib/gcc/arm-none-eabi/4.6.1/armv6-m\libgcc.a(_thumb1_case_sqi.o)
+ .data          0x20000024        0x0 d:/program files/arm-2011.09/bin/../lib/gcc/arm-none-eabi/4.6.1/armv6-m\libgcc.a(_thumb1_case_uqi.o)
+ .data          0x20000024        0x0 d:/program files/arm-2011.09/bin/../lib/gcc/arm-none-eabi/4.6.1/armv6-m\libgcc.a(_udivsi3.o)
+ .data          0x20000024        0x0 d:/program files/arm-2011.09/bin/../lib/gcc/arm-none-eabi/4.6.1/armv6-m\libgcc.a(_dvmd_tls.o)
+                0x20000024                . = ALIGN (0x4)
+                0x20000024                _edata = .
+
+.igot.plt       0x20000024        0x0 load address 0x08001bb4
+ .igot.plt      0x00000000        0x0 ./src/main.o
+
+.bss            0x20000024        0xc load address 0x08001bb4
+                0x20000024                . = ALIGN (0x4)
+                0x20000024                _bss = .
+ *(.bss*)
+ .bss           0x20000024        0x0 ./src/main.o
+ .bss.the_run_time
+                0x20000024        0x4 ./src/main.o
+ .bss.ms.4053   0x20000028        0x4 ./src/main.o
+ .bss           0x2000002c        0x0 ./src/target.o
+ .bss           0x2000002c        0x0 ./src/update.o
+ .bss.the_run_status
+                0x2000002c        0x1 ./src/update.o
+ .bss           0x2000002d        0x0 F:\EclipseWorkspace\stm23f07\f07_boot\lib\libstm32f0lib.a(stm32f0xx_flash.o)
+ .bss           0x2000002d        0x0 F:\EclipseWorkspace\stm23f07\f07_boot\lib\libstm32f0lib.a(stm32f0xx_gpio.o)
+ .bss           0x2000002d        0x0 F:\EclipseWorkspace\stm23f07\f07_boot\lib\libstm32f0lib.a(stm32f0xx_rcc.o)
+ .bss           0x2000002d        0x0 F:\EclipseWorkspace\stm23f07\f07_boot\lib\libstm32f0lib.a(stm32f0xx_usart.o)
+ .bss           0x2000002d        0x0 F:\EclipseWorkspace\stm23f07\f07_boot\lib\libstm32f0lib.a(system_stm32f0xx.o)
+ .bss           0x2000002d        0x0 d:/program files/arm-2011.09/bin/../lib/gcc/arm-none-eabi/4.6.1/armv6-m\libgcc.a(_thumb1_case_sqi.o)
+ .bss           0x2000002d        0x0 d:/program files/arm-2011.09/bin/../lib/gcc/arm-none-eabi/4.6.1/armv6-m\libgcc.a(_thumb1_case_uqi.o)
+ .bss           0x2000002d        0x0 d:/program files/arm-2011.09/bin/../lib/gcc/arm-none-eabi/4.6.1/armv6-m\libgcc.a(_udivsi3.o)
+ .bss           0x2000002d        0x0 d:/program files/arm-2011.09/bin/../lib/gcc/arm-none-eabi/4.6.1/armv6-m\libgcc.a(_dvmd_tls.o)
+ *(COMMON)
+                0x20000030                . = ALIGN (0x4)
+ *fill*         0x2000002d        0x3 00
+                0x20000030                _ebss = .
+
+.stackarea      0x20000030     0x1000 load address 0x08001bc0
+                0x20000030                . = ALIGN (0x4)
+                0x20000030                _stackarea = .
+                0x20000030                . = ALIGN (0x4)
+ .stackarea     0x20000030     0x1000 ./src/main.o
+OUTPUT(f07_boot.elf elf32-littlearm)
+
+.comment        0x00000000       0x30
+ .comment       0x00000000       0x30 ./src/main.o
+                                 0x31 (size before relaxing)
+ .comment       0x00000000       0x31 ./src/target.o
+ .comment       0x00000000       0x31 ./src/update.o
+ .comment       0x00000000       0x31 F:\EclipseWorkspace\stm23f07\f07_boot\lib\libstm32f0lib.a(stm32f0xx_flash.o)
+ .comment       0x00000000       0x31 F:\EclipseWorkspace\stm23f07\f07_boot\lib\libstm32f0lib.a(stm32f0xx_gpio.o)
+ .comment       0x00000000       0x31 F:\EclipseWorkspace\stm23f07\f07_boot\lib\libstm32f0lib.a(stm32f0xx_rcc.o)
+ .comment       0x00000000       0x31 F:\EclipseWorkspace\stm23f07\f07_boot\lib\libstm32f0lib.a(stm32f0xx_usart.o)
+ .comment       0x00000000       0x31 F:\EclipseWorkspace\stm23f07\f07_boot\lib\libstm32f0lib.a(system_stm32f0xx.o)
+
+.ARM.attributes
+                0x00000000       0x33
+ .ARM.attributes
+                0x00000000       0x33 ./src/main.o
+ .ARM.attributes
+                0x00000033       0x33 ./src/target.o
+ .ARM.attributes
+                0x00000066       0x33 ./src/update.o
+ .ARM.attributes
+                0x00000099       0x33 F:\EclipseWorkspace\stm23f07\f07_boot\lib\libstm32f0lib.a(stm32f0xx_flash.o)
+ .ARM.attributes
+                0x000000cc       0x33 F:\EclipseWorkspace\stm23f07\f07_boot\lib\libstm32f0lib.a(stm32f0xx_gpio.o)
+ .ARM.attributes
+                0x000000ff       0x33 F:\EclipseWorkspace\stm23f07\f07_boot\lib\libstm32f0lib.a(stm32f0xx_rcc.o)
+ .ARM.attributes
+                0x00000132       0x33 F:\EclipseWorkspace\stm23f07\f07_boot\lib\libstm32f0lib.a(stm32f0xx_usart.o)
+ .ARM.attributes
+                0x00000165       0x33 F:\EclipseWorkspace\stm23f07\f07_boot\lib\libstm32f0lib.a(system_stm32f0xx.o)
+ .ARM.attributes
+                0x00000198       0x1f d:/program files/arm-2011.09/bin/../lib/gcc/arm-none-eabi/4.6.1/armv6-m\libgcc.a(_thumb1_case_sqi.o)
+ .ARM.attributes
+                0x000001b7       0x1f d:/program files/arm-2011.09/bin/../lib/gcc/arm-none-eabi/4.6.1/armv6-m\libgcc.a(_thumb1_case_uqi.o)
+ .ARM.attributes
+                0x000001d6       0x1f d:/program files/arm-2011.09/bin/../lib/gcc/arm-none-eabi/4.6.1/armv6-m\libgcc.a(_udivsi3.o)
+ .ARM.attributes
+                0x000001f5       0x1f d:/program files/arm-2011.09/bin/../lib/gcc/arm-none-eabi/4.6.1/armv6-m\libgcc.a(_dvmd_tls.o)
+
+.debug_frame    0x00000000       0x20
+ .debug_frame   0x00000000       0x20 d:/program files/arm-2011.09/bin/../lib/gcc/arm-none-eabi/4.6.1/armv6-m\libgcc.a(_udivsi3.o)

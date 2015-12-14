@@ -1,0 +1,420 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"target.c"
+  14              		.section	.text.hw_init,"ax",%progbits
+  15              		.align	1
+  16              		.global	hw_init
+  17              		.code	16
+  18              		.thumb_func
+  20              	hw_init:
+  21 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+  22 0002 294C     		ldr	r4, .L2
+  23 0004 89B0     		sub	sp, sp, #36
+  24 0006 FFF7FEFF 		bl	SystemInit
+  25 000a 6569     		ldr	r5, [r4, #20]
+  26 000c 8020     		mov	r0, #128
+  27 000e 8202     		lsl	r2, r0, #10
+  28 0010 2A43     		orr	r2, r5
+  29 0012 6169     		ldr	r1, [r4, #20]
+  30 0014 6261     		str	r2, [r4, #20]
+  31 0016 A769     		ldr	r7, [r4, #24]
+  32 0018 8023     		mov	r3, #128
+  33 001a DE01     		lsl	r6, r3, #7
+  34 001c 3E43     		orr	r6, r7
+  35 001e 0025     		mov	r5, #0
+  36 0020 A169     		ldr	r1, [r4, #24]
+  37 0022 0327     		mov	r7, #3
+  38 0024 A661     		str	r6, [r4, #24]
+  39 0026 9021     		mov	r1, #144
+  40 0028 06AC     		add	r4, sp, #24
+  41 002a 0126     		mov	r6, #1
+  42 002c A571     		strb	r5, [r4, #6]
+  43 002e E671     		strb	r6, [r4, #7]
+  44 0030 2671     		strb	r6, [r4, #4]
+  45 0032 6771     		strb	r7, [r4, #5]
+  46 0034 C805     		lsl	r0, r1, #23
+  47 0036 211C     		mov	r1, r4
+  48 0038 0696     		str	r6, [sp, #24]
+  49 003a FFF7FEFF 		bl	GPIO_Init
+  50 003e 9020     		mov	r0, #144
+  51 0040 2A1C     		mov	r2, r5
+  52 0042 C005     		lsl	r0, r0, #23
+  53 0044 0621     		mov	r1, #6
+  54 0046 FFF7FEFF 		bl	GPIO_PinAFConfig
+  55 004a 9022     		mov	r2, #144
+  56 004c D005     		lsl	r0, r2, #23
+  57 004e 0721     		mov	r1, #7
+  58 0050 2A1C     		mov	r2, r5
+  59 0052 FFF7FEFF 		bl	GPIO_PinAFConfig
+  60 0056 8021     		mov	r1, #128
+  61 0058 9022     		mov	r2, #144
+  62 005a 0223     		mov	r3, #2
+  63 005c 8800     		lsl	r0, r1, #2
+  64 005e A571     		strb	r5, [r4, #6]
+  65 0060 E671     		strb	r6, [r4, #7]
+  66 0062 2371     		strb	r3, [r4, #4]
+  67 0064 6771     		strb	r7, [r4, #5]
+  68 0066 0690     		str	r0, [sp, #24]
+  69 0068 211C     		mov	r1, r4
+  70 006a D005     		lsl	r0, r2, #23
+  71 006c FFF7FEFF 		bl	GPIO_Init
+  72 0070 8023     		mov	r3, #128
+  73 0072 BB40     		lsl	r3, r3, r7
+  74 0074 9027     		mov	r7, #144
+  75 0076 F805     		lsl	r0, r7, #23
+  76 0078 211C     		mov	r1, r4
+  77 007a E124     		mov	r4, #225
+  78 007c 0693     		str	r3, [sp, #24]
+  79 007e FFF7FEFF 		bl	GPIO_Init
+  80 0082 6102     		lsl	r1, r4, #9
+  81 0084 0C20     		mov	r0, #12
+  82 0086 0091     		str	r1, [sp]
+  83 0088 0490     		str	r0, [sp, #16]
+  84 008a 6946     		mov	r1, sp
+  85 008c 0748     		ldr	r0, .L2+4
+  86 008e 0195     		str	r5, [sp, #4]
+  87 0090 0295     		str	r5, [sp, #8]
+  88 0092 0395     		str	r5, [sp, #12]
+  89 0094 0595     		str	r5, [sp, #20]
+  90 0096 FFF7FEFF 		bl	USART_Init
+  91 009a 044B     		ldr	r3, .L2+4
+  92 009c 09B0     		add	sp, sp, #36
+  93 009e 1A68     		ldr	r2, [r3]
+  94              		@ sp needed for prologue
+  95 00a0 1643     		orr	r6, r2
+  96 00a2 1A68     		ldr	r2, [r3]
+  97 00a4 1E60     		str	r6, [r3]
+  98 00a6 F0BD     		pop	{r4, r5, r6, r7, pc}
+  99              	.L3:
+ 100              		.align	2
+ 101              	.L2:
+ 102 00a8 00100240 		.word	1073876992
+ 103 00ac 00380140 		.word	1073821696
+ 105              		.global	__aeabi_uidiv
+ 106              		.section	.text.systick_open,"ax",%progbits
+ 107              		.align	1
+ 108              		.global	systick_open
+ 109              		.code	16
+ 110              		.thumb_func
+ 112              	systick_open:
+ 113 0000 00B5     		push	{lr}
+ 114 0002 8BB0     		sub	sp, sp, #44
+ 115 0004 6846     		mov	r0, sp
+ 116 0006 FFF7FEFF 		bl	RCC_GetClocksFreq
+ 117 000a FA21     		mov	r1, #250
+ 118 000c 0198     		ldr	r0, [sp, #4]
+ 119 000e 8900     		lsl	r1, r1, #2
+ 120 0010 FFF7FEFF 		bl	__aeabi_uidiv
+ 121 0014 0B4B     		ldr	r3, .L6
+ 122 0016 0138     		sub	r0, r0, #1
+ 123 0018 9842     		cmp	r0, r3
+ 124 001a 11D8     		bhi	.L4
+ 125 001c 0A4B     		ldr	r3, .L6+4
+ 126 001e 5A68     		ldr	r2, [r3, #4]
+ 127 0020 0A4A     		ldr	r2, .L6+8
+ 128 0022 5860     		str	r0, [r3, #4]
+ 129 0024 116A     		ldr	r1, [r2, #32]
+ 130 0026 0802     		lsl	r0, r1, #8
+ 131 0028 C021     		mov	r1, #192
+ 132 002a 000A     		lsr	r0, r0, #8
+ 133 002c 0906     		lsl	r1, r1, #24
+ 134 002e 0143     		orr	r1, r0
+ 135 0030 106A     		ldr	r0, [r2, #32]
+ 136 0032 1162     		str	r1, [r2, #32]
+ 137 0034 0020     		mov	r0, #0
+ 138 0036 9A68     		ldr	r2, [r3, #8]
+ 139 0038 9860     		str	r0, [r3, #8]
+ 140 003a 1A68     		ldr	r2, [r3]
+ 141 003c 0722     		mov	r2, #7
+ 142 003e 1A60     		str	r2, [r3]
+ 143              	.L4:
+ 144 0040 0BB0     		add	sp, sp, #44
+ 145              		@ sp needed for prologue
+ 146 0042 00BD     		pop	{pc}
+ 147              	.L7:
+ 148              		.align	2
+ 149              	.L6:
+ 150 0044 FFFFFF00 		.word	16777215
+ 151 0048 10E000E0 		.word	-536813552
+ 152 004c 00ED00E0 		.word	-536810240
+ 154              		.section	.text.systick_stop,"ax",%progbits
+ 155              		.align	1
+ 156              		.global	systick_stop
+ 157              		.code	16
+ 158              		.thumb_func
+ 160              	systick_stop:
+ 161 0000 034B     		ldr	r3, .L9
+ 162 0002 0121     		mov	r1, #1
+ 163 0004 1A68     		ldr	r2, [r3]
+ 164              		@ sp needed for prologue
+ 165 0006 8A43     		bic	r2, r1
+ 166 0008 1968     		ldr	r1, [r3]
+ 167 000a 1A60     		str	r2, [r3]
+ 168 000c 7047     		bx	lr
+ 169              	.L10:
+ 170 000e C046     		.align	2
+ 171              	.L9:
+ 172 0010 10E000E0 		.word	-536813552
+ 174              		.section	.text.uart_send,"ax",%progbits
+ 175              		.align	1
+ 176              		.global	uart_send
+ 177              		.code	16
+ 178              		.thumb_func
+ 180              	uart_send:
+ 181 0000 10B5     		push	{r4, lr}
+ 182 0002 041C     		mov	r4, r0
+ 183              	.L12:
+ 184 0004 0448     		ldr	r0, .L14
+ 185 0006 8021     		mov	r1, #128
+ 186 0008 FFF7FEFF 		bl	USART_GetFlagStatus
+ 187 000c 0028     		cmp	r0, #0
+ 188 000e F9D0     		beq	.L12
+ 189 0010 014B     		ldr	r3, .L14
+ 190              		@ sp needed for prologue
+ 191 0012 1A8D     		ldrh	r2, [r3, #40]
+ 192 0014 1C85     		strh	r4, [r3, #40]
+ 193 0016 10BD     		pop	{r4, pc}
+ 194              	.L15:
+ 195              		.align	2
+ 196              	.L14:
+ 197 0018 00380140 		.word	1073821696
+ 199              		.section	.text.uart_try_receive,"ax",%progbits
+ 200              		.align	1
+ 201              		.global	uart_try_receive
+ 202              		.code	16
+ 203              		.thumb_func
+ 205              	uart_try_receive:
+ 206 0000 10B5     		push	{r4, lr}
+ 207 0002 041C     		mov	r4, r0
+ 208 0004 2021     		mov	r1, #32
+ 209 0006 0548     		ldr	r0, .L19
+ 210 0008 FFF7FEFF 		bl	USART_GetFlagStatus
+ 211 000c 0028     		cmp	r0, #0
+ 212 000e 03D0     		beq	.L17
+ 213 0010 0248     		ldr	r0, .L19
+ 214 0012 838C     		ldrh	r3, [r0, #36]
+ 215 0014 0120     		mov	r0, #1
+ 216 0016 2370     		strb	r3, [r4]
+ 217              	.L17:
+ 218              		@ sp needed for prologue
+ 219 0018 10BD     		pop	{r4, pc}
+ 220              	.L20:
+ 221 001a C046     		.align	2
+ 222              	.L19:
+ 223 001c 00380140 		.word	1073821696
+ 225              		.section	.text.uart_receive,"ax",%progbits
+ 226              		.align	1
+ 227              		.global	uart_receive
+ 228              		.code	16
+ 229              		.thumb_func
+ 231              	uart_receive:
+ 232 0000 38B5     		push	{r3, r4, r5, lr}
+ 233 0002 041C     		mov	r4, r0
+ 234 0004 0D1C     		mov	r5, r1
+ 235              	.L26:
+ 236 0006 201C     		mov	r0, r4
+ 237 0008 FFF7FEFF 		bl	uart_try_receive
+ 238 000c 0028     		cmp	r0, #0
+ 239 000e FAD0     		beq	.L26
+ 240 0010 013D     		sub	r5, r5, #1
+ 241 0012 0134     		add	r4, r4, #1
+ 242 0014 002D     		cmp	r5, #0
+ 243 0016 F6D1     		bne	.L26
+ 244              		@ sp needed for prologue
+ 245 0018 38BD     		pop	{r3, r4, r5, pc}
+ 247              		.section	.text.print,"ax",%progbits
+ 248              		.align	1
+ 249              		.global	print
+ 250              		.code	16
+ 251              		.thumb_func
+ 253              	print:
+ 254 0000 10B5     		push	{r4, lr}
+ 255 0002 041C     		mov	r4, r0
+ 256 0004 02E0     		b	.L28
+ 257              	.L29:
+ 258 0006 FFF7FEFF 		bl	uart_send
+ 259 000a 0134     		add	r4, r4, #1
+ 260              	.L28:
+ 261 000c 2078     		ldrb	r0, [r4]
+ 262 000e 0028     		cmp	r0, #0
+ 263 0010 F9D1     		bne	.L29
+ 264              		@ sp needed for prologue
+ 265 0012 10BD     		pop	{r4, pc}
+ 267              		.section	.text.reset,"ax",%progbits
+ 268              		.align	1
+ 269              		.global	reset
+ 270              		.code	16
+ 271              		.thumb_func
+ 273              	reset:
+ 274 0000 00B5     		push	{lr}
+ 275              	@ 382 "F:\EclipseWorkspace\stm23f07\f07_boot\src\inc/./cpu/core_cmInstr.h" 1
+ 276 0002 BFF34F8F 		dsb
+ 277              	@ 0 "" 2
+ 278              		.code	16
+ 279 0006 034B     		ldr	r3, .L32
+ 280 0008 DA68     		ldr	r2, [r3, #12]
+ 281 000a 034A     		ldr	r2, .L32+4
+ 282 000c DA60     		str	r2, [r3, #12]
+ 283              	@ 382 "F:\EclipseWorkspace\stm23f07\f07_boot\src\inc/./cpu/core_cmInstr.h" 1
+ 284 000e BFF34F8F 		dsb
+ 285              	@ 0 "" 2
+ 286              		.code	16
+ 287              	.L31:
+ 288 0012 FEE7     		b	.L31
+ 289              	.L33:
+ 290              		.align	2
+ 291              	.L32:
+ 292 0014 00ED00E0 		.word	-536810240
+ 293 0018 0400FA05 		.word	100270084
+ 295              		.section	.text.iflash_init,"ax",%progbits
+ 296              		.align	1
+ 297              		.global	iflash_init
+ 298              		.code	16
+ 299              		.thumb_func
+ 301              	iflash_init:
+ 302 0000 08B5     		push	{r3, lr}
+ 303 0002 FFF7FEFF 		bl	FLASH_Unlock
+ 304 0006 3520     		mov	r0, #53
+ 305 0008 FFF7FEFF 		bl	FLASH_ClearFlag
+ 306              		@ sp needed for prologue
+ 307 000c 08BD     		pop	{r3, pc}
+ 309              		.section	.text.iflash_erase,"ax",%progbits
+ 310              		.align	1
+ 311              		.global	iflash_erase
+ 312              		.code	16
+ 313              		.thumb_func
+ 315              	iflash_erase:
+ 316 0000 0120     		mov	r0, #1
+ 317              		@ sp needed for prologue
+ 318 0002 7047     		bx	lr
+ 320              		.section	.text.iflash_read,"ax",%progbits
+ 321              		.align	1
+ 322              		.global	iflash_read
+ 323              		.code	16
+ 324              		.thumb_func
+ 326              	iflash_read:
+ 327 0000 10B5     		push	{r4, lr}
+ 328 0002 0023     		mov	r3, #0
+ 329 0004 02E0     		b	.L37
+ 330              	.L38:
+ 331 0006 5C5C     		ldrb	r4, [r3, r1]
+ 332 0008 C454     		strb	r4, [r0, r3]
+ 333 000a 0133     		add	r3, r3, #1
+ 334              	.L37:
+ 335 000c 9342     		cmp	r3, r2
+ 336 000e FAD1     		bne	.L38
+ 337 0010 0120     		mov	r0, #1
+ 338              		@ sp needed for prologue
+ 339 0012 10BD     		pop	{r4, pc}
+ 341              		.section	.text.iflash_write,"ax",%progbits
+ 342              		.align	1
+ 343              		.global	iflash_write
+ 344              		.code	16
+ 345              		.thumb_func
+ 347              	iflash_write:
+ 348 0000 F7B5     		push	{r0, r1, r2, r4, r5, r6, r7, lr}
+ 349 0002 0C1C     		mov	r4, r1
+ 350 0004 0192     		str	r2, [sp, #4]
+ 351 0006 051C     		mov	r5, r0
+ 352 0008 0026     		mov	r6, #0
+ 353 000a 0CE0     		b	.L40
+ 354              	.L42:
+ 355 000c 201C     		mov	r0, r4
+ 356 000e 2968     		ldr	r1, [r5]
+ 357 0010 2F1C     		mov	r7, r5
+ 358 0012 FFF7FEFF 		bl	FLASH_ProgramWord
+ 359 0016 0028     		cmp	r0, #0
+ 360 0018 0BD0     		beq	.L41
+ 361 001a 04CC     		ldmia	r4!, {r2}
+ 362 001c 3B68     		ldr	r3, [r7]
+ 363 001e 0435     		add	r5, r5, #4
+ 364 0020 9A42     		cmp	r2, r3
+ 365 0022 05D1     		bne	.L44
+ 366 0024 0436     		add	r6, r6, #4
+ 367              	.L40:
+ 368 0026 0198     		ldr	r0, [sp, #4]
+ 369 0028 8642     		cmp	r6, r0
+ 370 002a EFD3     		bcc	.L42
+ 371 002c 0120     		mov	r0, #1
+ 372 002e 00E0     		b	.L41
+ 373              	.L44:
+ 374 0030 0020     		mov	r0, #0
+ 375              	.L41:
+ 376              		@ sp needed for prologue
+ 377 0032 FEBD     		pop	{r1, r2, r3, r4, r5, r6, r7, pc}
+ 379              		.section	.text.delay,"ax",%progbits
+ 380              		.align	1
+ 381              		.global	delay
+ 382              		.code	16
+ 383              		.thumb_func
+ 385              	delay:
+ 386 0000 07B5     		push	{r0, r1, r2, lr}
+ 387 0002 7823     		mov	r3, #120
+ 388 0004 5843     		mul	r0, r3
+ 389 0006 0021     		mov	r1, #0
+ 390 0008 0191     		str	r1, [sp, #4]
+ 391              	.L46:
+ 392 000a 019A     		ldr	r2, [sp, #4]
+ 393 000c 0132     		add	r2, r2, #1
+ 394 000e 0192     		str	r2, [sp, #4]
+ 395 0010 8242     		cmp	r2, r0
+ 396 0012 FAD9     		bls	.L46
+ 397              		@ sp needed for prologue
+ 398 0014 07BD     		pop	{r0, r1, r2, pc}
+ 400              		.ident	"GCC: (Sourcery CodeBench Lite 2011.09-69) 4.6.1"
+DEFINED SYMBOLS
+                            *ABS*:00000000 target.c
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccWkDK92.s:15     .text.hw_init:00000000 $t
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccWkDK92.s:20     .text.hw_init:00000000 hw_init
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccWkDK92.s:102    .text.hw_init:000000a8 $d
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccWkDK92.s:107    .text.systick_open:00000000 $t
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccWkDK92.s:112    .text.systick_open:00000000 systick_open
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccWkDK92.s:150    .text.systick_open:00000044 $d
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccWkDK92.s:155    .text.systick_stop:00000000 $t
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccWkDK92.s:160    .text.systick_stop:00000000 systick_stop
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccWkDK92.s:172    .text.systick_stop:00000010 $d
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccWkDK92.s:175    .text.uart_send:00000000 $t
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccWkDK92.s:180    .text.uart_send:00000000 uart_send
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccWkDK92.s:197    .text.uart_send:00000018 $d
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccWkDK92.s:200    .text.uart_try_receive:00000000 $t
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccWkDK92.s:205    .text.uart_try_receive:00000000 uart_try_receive
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccWkDK92.s:223    .text.uart_try_receive:0000001c $d
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccWkDK92.s:226    .text.uart_receive:00000000 $t
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccWkDK92.s:231    .text.uart_receive:00000000 uart_receive
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccWkDK92.s:248    .text.print:00000000 $t
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccWkDK92.s:253    .text.print:00000000 print
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccWkDK92.s:268    .text.reset:00000000 $t
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccWkDK92.s:273    .text.reset:00000000 reset
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccWkDK92.s:292    .text.reset:00000014 $d
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccWkDK92.s:296    .text.iflash_init:00000000 $t
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccWkDK92.s:301    .text.iflash_init:00000000 iflash_init
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccWkDK92.s:310    .text.iflash_erase:00000000 $t
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccWkDK92.s:315    .text.iflash_erase:00000000 iflash_erase
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccWkDK92.s:321    .text.iflash_read:00000000 $t
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccWkDK92.s:326    .text.iflash_read:00000000 iflash_read
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccWkDK92.s:342    .text.iflash_write:00000000 $t
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccWkDK92.s:347    .text.iflash_write:00000000 iflash_write
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccWkDK92.s:380    .text.delay:00000000 $t
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccWkDK92.s:385    .text.delay:00000000 delay
+
+UNDEFINED SYMBOLS
+SystemInit
+GPIO_Init
+GPIO_PinAFConfig
+USART_Init
+__aeabi_uidiv
+RCC_GetClocksFreq
+USART_GetFlagStatus
+FLASH_Unlock
+FLASH_ClearFlag
+FLASH_ProgramWord

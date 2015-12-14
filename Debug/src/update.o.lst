@@ -1,0 +1,361 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"update.c"
+  14              		.section	.text.send_packet.constprop.0,"ax",%progbits
+  15              		.align	1
+  16              		.code	16
+  17              		.thumb_func
+  19              	send_packet.constprop.0:
+  20 0000 10B5     		push	{r4, lr}
+  21 0002 041C     		mov	r4, r0
+  22 0004 0A20     		mov	r0, #10
+  23 0006 FFF7FEFF 		bl	delay
+  24 000a 2078     		ldrb	r0, [r4]
+  25 000c FFF7FEFF 		bl	uart_send
+  26 0010 6078     		ldrb	r0, [r4, #1]
+  27 0012 FFF7FEFF 		bl	uart_send
+  28 0016 A078     		ldrb	r0, [r4, #2]
+  29 0018 FFF7FEFF 		bl	uart_send
+  30              		@ sp needed for prologue
+  31 001c 10BD     		pop	{r4, pc}
+  33              		.section	.text.send_ack,"ax",%progbits
+  34              		.align	1
+  35              		.code	16
+  36              		.thumb_func
+  38              	send_ack:
+  39 0000 07B5     		push	{r0, r1, r2, lr}
+  40 0002 01A8     		add	r0, sp, #4
+  41 0004 0021     		mov	r1, #0
+  42 0006 CC23     		mov	r3, #204
+  43 0008 0170     		strb	r1, [r0]
+  44 000a 4170     		strb	r1, [r0, #1]
+  45 000c 8370     		strb	r3, [r0, #2]
+  46 000e FFF7FEFF 		bl	send_packet.constprop.0
+  47              		@ sp needed for prologue
+  48 0012 07BD     		pop	{r0, r1, r2, pc}
+  50              		.section	.text.uart_update,"ax",%progbits
+  51              		.align	1
+  52              		.global	uart_update
+  53              		.code	16
+  54              		.thumb_func
+  56              	uart_update:
+  57 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+  58 0002 C5B0     		sub	sp, sp, #276
+  59 0004 6A46     		mov	r2, sp
+  60 0006 0E32     		add	r2, r2, #14
+  61 0008 0023     		mov	r3, #0
+  62 000a FF32     		add	r2, r2, #255
+  63 000c 1370     		strb	r3, [r2]
+  64 000e 5370     		strb	r3, [r2, #1]
+  65 0010 7B48     		ldr	r0, .L45
+  66 0012 FFF7FEFF 		bl	print
+  67              	.L42:
+  68 0016 FFF7FEFF 		bl	get_systime
+  69 001a 0228     		cmp	r0, #2
+  70 001c 0CD8     		bhi	.L29
+  71 001e 6C46     		mov	r4, sp
+  72 0020 1034     		add	r4, r4, #16
+  73 0022 FF34     		add	r4, r4, #255
+  74 0024 201C     		mov	r0, r4
+  75 0026 FFF7FEFF 		bl	uart_try_receive
+  76 002a 0028     		cmp	r0, #0
+  77 002c F3D0     		beq	.L42
+  78 002e 2078     		ldrb	r0, [r4]
+  79 0030 1B28     		cmp	r0, #27
+  80 0032 F0D1     		bne	.L42
+  81 0034 0124     		mov	r4, #1
+  82 0036 00E0     		b	.L4
+  83              	.L29:
+  84 0038 0024     		mov	r4, #0
+  85              	.L4:
+  86 003a 7248     		ldr	r0, .L45+4
+  87 003c FFF7FEFF 		bl	print
+  88 0040 002C     		cmp	r4, #0
+  89 0042 02D1     		bne	.L6
+  90 0044 45B0     		add	sp, sp, #276
+  91 0046 0120     		mov	r0, #1
+  92              		@ sp needed for prologue
+  93 0048 F0BD     		pop	{r4, r5, r6, r7, pc}
+  94              	.L6:
+  95 004a 6F48     		ldr	r0, .L45+8
+  96 004c FFF7FEFF 		bl	print
+  97 0050 6E4C     		ldr	r4, .L45+12
+  98 0052 0121     		mov	r1, #1
+  99 0054 2170     		strb	r1, [r4]
+ 100              	.L43:
+ 101 0056 6E46     		mov	r6, sp
+ 102 0058 1036     		add	r6, r6, #16
+ 103 005a 0025     		mov	r5, #0
+ 104 005c FF36     		add	r6, r6, #255
+ 105 005e 3570     		strb	r5, [r6]
+ 106              	.L7:
+ 107 0060 6C46     		mov	r4, sp
+ 108 0062 1034     		add	r4, r4, #16
+ 109 0064 FF34     		add	r4, r4, #255
+ 110 0066 201C     		mov	r0, r4
+ 111 0068 0121     		mov	r1, #1
+ 112 006a FFF7FEFF 		bl	uart_receive
+ 113 006e 2778     		ldrb	r7, [r4]
+ 114 0070 032F     		cmp	r7, #3
+ 115 0072 F5D1     		bne	.L7
+ 116 0074 201C     		mov	r0, r4
+ 117 0076 0121     		mov	r1, #1
+ 118 0078 FFF7FEFF 		bl	uart_receive
+ 119 007c 2278     		ldrb	r2, [r4]
+ 120 007e 202A     		cmp	r2, #32
+ 121 0080 E9D1     		bne	.L43
+ 122 0082 201C     		mov	r0, r4
+ 123 0084 0121     		mov	r1, #1
+ 124 0086 FFF7FEFF 		bl	uart_receive
+ 125 008a 2378     		ldrb	r3, [r4]
+ 126 008c 202B     		cmp	r3, #32
+ 127 008e E2D1     		bne	.L43
+ 128 0090 FFF7FEFF 		bl	send_ack
+ 129 0094 0120     		mov	r0, #1
+ 130 0096 4025     		mov	r5, #64
+ 131 0098 4642     		neg	r6, r0
+ 132 009a 0027     		mov	r7, #0
+ 133              	.L44:
+ 134 009c 6C46     		mov	r4, sp
+ 135 009e 1034     		add	r4, r4, #16
+ 136 00a0 0021     		mov	r1, #0
+ 137 00a2 FF34     		add	r4, r4, #255
+ 138 00a4 2170     		strb	r1, [r4]
+ 139              	.L11:
+ 140 00a6 6C46     		mov	r4, sp
+ 141 00a8 0E34     		add	r4, r4, #14
+ 142 00aa FF34     		add	r4, r4, #255
+ 143 00ac 201C     		mov	r0, r4
+ 144 00ae 0121     		mov	r1, #1
+ 145 00b0 FFF7FEFF 		bl	uart_receive
+ 146 00b4 2278     		ldrb	r2, [r4]
+ 147 00b6 022A     		cmp	r2, #2
+ 148 00b8 F5D9     		bls	.L11
+ 149 00ba 6846     		mov	r0, sp
+ 150 00bc 1030     		add	r0, r0, #16
+ 151 00be FF30     		add	r0, r0, #255
+ 152 00c0 0121     		mov	r1, #1
+ 153 00c2 FFF7FEFF 		bl	uart_receive
+ 154 00c6 6846     		mov	r0, sp
+ 155 00c8 0F30     		add	r0, r0, #15
+ 156 00ca 0121     		mov	r1, #1
+ 157 00cc FF30     		add	r0, r0, #255
+ 158 00ce FFF7FEFF 		bl	uart_receive
+ 159 00d2 2378     		ldrb	r3, [r4]
+ 160 00d4 033B     		sub	r3, r3, #3
+ 161 00d6 D9B2     		uxtb	r1, r3
+ 162 00d8 2170     		strb	r1, [r4]
+ 163 00da 0029     		cmp	r1, #0
+ 164 00dc 02D0     		beq	.L12
+ 165 00de 03A8     		add	r0, sp, #12
+ 166 00e0 FFF7FEFF 		bl	uart_receive
+ 167              	.L12:
+ 168 00e4 6C46     		mov	r4, sp
+ 169 00e6 0F34     		add	r4, r4, #15
+ 170 00e8 FF34     		add	r4, r4, #255
+ 171 00ea 2078     		ldrb	r0, [r4]
+ 172 00ec 013C     		sub	r4, r4, #1
+ 173 00ee 2278     		ldrb	r2, [r4]
+ 174 00f0 0234     		add	r4, r4, #2
+ 175 00f2 2178     		ldrb	r1, [r4]
+ 176 00f4 131C     		mov	r3, r2
+ 177 00f6 0191     		str	r1, [sp, #4]
+ 178 00f8 03AC     		add	r4, sp, #12
+ 179 00fa 011C     		mov	r1, r0
+ 180 00fc 9446     		mov	ip, r2
+ 181 00fe 05E0     		b	.L13
+ 182              	.L14:
+ 183 0100 2278     		ldrb	r2, [r4]
+ 184 0102 013B     		sub	r3, r3, #1
+ 185 0104 8A18     		add	r2, r1, r2
+ 186 0106 D1B2     		uxtb	r1, r2
+ 187 0108 0134     		add	r4, r4, #1
+ 188 010a DBB2     		uxtb	r3, r3
+ 189              	.L13:
+ 190 010c 002B     		cmp	r3, #0
+ 191 010e F7D1     		bne	.L14
+ 192 0110 019C     		ldr	r4, [sp, #4]
+ 193 0112 6246     		mov	r2, ip
+ 194 0114 A142     		cmp	r1, r4
+ 195 0116 6AD0     		beq	.L15
+ 196 0118 42A8     		add	r0, sp, #264
+ 197 011a 0370     		strb	r3, [r0]
+ 198 011c 4370     		strb	r3, [r0, #1]
+ 199 011e 3323     		mov	r3, #51
+ 200 0120 8370     		strb	r3, [r0, #2]
+ 201 0122 FFF7FEFF 		bl	send_packet.constprop.0
+ 202 0126 B9E7     		b	.L44
+ 203              	.L17:
+ 204 0128 FFF7FEFF 		bl	send_ack
+ 205 012c 4025     		mov	r5, #64
+ 206 012e B5E7     		b	.L44
+ 207              	.L18:
+ 208 0130 4225     		mov	r5, #66
+ 209 0132 082A     		cmp	r2, #8
+ 210 0134 1FD1     		bne	.L19
+ 211 0136 03AB     		add	r3, sp, #12
+ 212 0138 1E78     		ldrb	r6, [r3]
+ 213 013a 5C78     		ldrb	r4, [r3, #1]
+ 214 013c 3606     		lsl	r6, r6, #24
+ 215 013e 2204     		lsl	r2, r4, #16
+ 216 0140 D978     		ldrb	r1, [r3, #3]
+ 217 0142 9878     		ldrb	r0, [r3, #2]
+ 218 0144 1643     		orr	r6, r2
+ 219 0146 0E43     		orr	r6, r1
+ 220 0148 0702     		lsl	r7, r0, #8
+ 221 014a 3E43     		orr	r6, r7
+ 222 014c 13D1     		bne	.L19
+ 223 014e 1F79     		ldrb	r7, [r3, #4]
+ 224 0150 5A79     		ldrb	r2, [r3, #5]
+ 225 0152 D879     		ldrb	r0, [r3, #7]
+ 226 0154 1104     		lsl	r1, r2, #16
+ 227 0156 9B79     		ldrb	r3, [r3, #6]
+ 228 0158 3F06     		lsl	r7, r7, #24
+ 229 015a 0F43     		orr	r7, r1
+ 230 015c 0743     		orr	r7, r0
+ 231 015e 1D02     		lsl	r5, r3, #8
+ 232 0160 2F43     		orr	r7, r5
+ 233 0162 FFF7FEFF 		bl	iflash_init
+ 234 0166 2A48     		ldr	r0, .L45+16
+ 235 0168 391C     		mov	r1, r7
+ 236 016a FFF7FEFF 		bl	iflash_erase
+ 237 016e 0028     		cmp	r0, #0
+ 238 0170 03D1     		bne	.L32
+ 239 0172 274E     		ldr	r6, .L45+16
+ 240 0174 4425     		mov	r5, #68
+ 241              	.L19:
+ 242 0176 0027     		mov	r7, #0
+ 243 0178 2DE0     		b	.L24
+ 244              	.L32:
+ 245 017a 4025     		mov	r5, #64
+ 246 017c 244E     		ldr	r6, .L45+16
+ 247 017e 2AE0     		b	.L24
+ 248              	.L21:
+ 249 0180 6C46     		mov	r4, sp
+ 250 0182 1034     		add	r4, r4, #16
+ 251 0184 FFF7FEFF 		bl	send_ack
+ 252 0188 FF34     		add	r4, r4, #255
+ 253 018a 0320     		mov	r0, #3
+ 254 018c 2070     		strb	r0, [r4]
+ 255 018e FFF7FEFF 		bl	uart_send
+ 256 0192 281C     		mov	r0, r5
+ 257 0194 FFF7FEFF 		bl	uart_send
+ 258 0198 281C     		mov	r0, r5
+ 259 019a FFF7FEFF 		bl	uart_send
+ 260              	.L22:
+ 261 019e 6C46     		mov	r4, sp
+ 262 01a0 1034     		add	r4, r4, #16
+ 263 01a2 FF34     		add	r4, r4, #255
+ 264 01a4 201C     		mov	r0, r4
+ 265 01a6 0121     		mov	r1, #1
+ 266 01a8 FFF7FEFF 		bl	uart_receive
+ 267 01ac 2378     		ldrb	r3, [r4]
+ 268 01ae 002B     		cmp	r3, #0
+ 269 01b0 F5D0     		beq	.L22
+ 270 01b2 73E7     		b	.L44
+ 271              	.L23:
+ 272 01b4 4325     		mov	r5, #67
+ 273 01b6 9742     		cmp	r7, r2
+ 274 01b8 0DD3     		bcc	.L24
+ 275 01ba 03A8     		add	r0, sp, #12
+ 276 01bc 311C     		mov	r1, r6
+ 277 01be FFF7FEFF 		bl	iflash_write
+ 278 01c2 4425     		mov	r5, #68
+ 279 01c4 0028     		cmp	r0, #0
+ 280 01c6 06D0     		beq	.L24
+ 281 01c8 6846     		mov	r0, sp
+ 282 01ca 0E30     		add	r0, r0, #14
+ 283 01cc FF30     		add	r0, r0, #255
+ 284 01ce 0578     		ldrb	r5, [r0]
+ 285 01d0 7F1B     		sub	r7, r7, r5
+ 286 01d2 7619     		add	r6, r6, r5
+ 287 01d4 4025     		mov	r5, #64
+ 288              	.L24:
+ 289 01d6 FFF7FEFF 		bl	send_ack
+ 290 01da 5FE7     		b	.L44
+ 291              	.L25:
+ 292 01dc FFF7FEFF 		bl	send_ack
+ 293 01e0 FFF7FEFF 		bl	reset
+ 294              	.L26:
+ 295 01e4 FEE7     		b	.L26
+ 296              	.L27:
+ 297 01e6 FFF7FEFF 		bl	send_ack
+ 298 01ea 4125     		mov	r5, #65
+ 299 01ec 56E7     		b	.L44
+ 300              	.L15:
+ 301 01ee 2038     		sub	r0, r0, #32
+ 302 01f0 0528     		cmp	r0, #5
+ 303 01f2 F8D8     		bhi	.L27
+ 304 01f4 FFF7FEFF 		bl	__gnu_thumb1_case_sqi
+ 305              	.L28:
+ 306 01f8 98       		.byte	(.L17-.L28)/2
+ 307 01f9 9C       		.byte	(.L18-.L28)/2
+ 308 01fa F7       		.byte	(.L27-.L28)/2
+ 309 01fb C4       		.byte	(.L21-.L28)/2
+ 310 01fc DE       		.byte	(.L23-.L28)/2
+ 311 01fd F2       		.byte	(.L25-.L28)/2
+ 312              		.align	1
+ 313              	.L46:
+ 314 01fe C046     		.align	2
+ 315              	.L45:
+ 316 0200 00000000 		.word	.LC2
+ 317 0204 2C000000 		.word	.LC4
+ 318 0208 2F000000 		.word	.LC6
+ 319 020c 00000000 		.word	.LANCHOR0
+ 320 0210 00800008 		.word	134250496
+ 322              		.section	.bss.the_run_status,"aw",%nobits
+ 323              		.set	.LANCHOR0,. + 0
+ 326              	the_run_status:
+ 327 0000 00       		.space	1
+ 328              		.section	.rodata.str1.1,"aMS",%progbits,1
+ 329              	.LC2:
+ 330 0000 50726573 		.ascii	"Press ESC to upgrade from serial port ...\015\012\000"
+ 330      73204553 
+ 330      4320746F 
+ 330      20757067 
+ 330      72616465 
+ 331              	.LC4:
+ 332 002c 0D0A00   		.ascii	"\015\012\000"
+ 333              	.LC6:
+ 334 002f 52656365 		.ascii	"Receiving data ...\000"
+ 334      6976696E 
+ 334      67206461 
+ 334      7461202E 
+ 334      2E2E00
+ 335              		.ident	"GCC: (Sourcery CodeBench Lite 2011.09-69) 4.6.1"
+DEFINED SYMBOLS
+                            *ABS*:00000000 update.c
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccW4tvSq.s:15     .text.send_packet.constprop.0:00000000 $t
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccW4tvSq.s:19     .text.send_packet.constprop.0:00000000 send_packet.constprop.0
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccW4tvSq.s:34     .text.send_ack:00000000 $t
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccW4tvSq.s:38     .text.send_ack:00000000 send_ack
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccW4tvSq.s:51     .text.uart_update:00000000 $t
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccW4tvSq.s:56     .text.uart_update:00000000 uart_update
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccW4tvSq.s:306    .text.uart_update:000001f8 $d
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccW4tvSq.s:312    .text.uart_update:000001fe $t
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccW4tvSq.s:316    .text.uart_update:00000200 $d
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccW4tvSq.s:326    .bss.the_run_status:00000000 the_run_status
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\ccW4tvSq.s:327    .bss.the_run_status:00000000 $d
+
+UNDEFINED SYMBOLS
+delay
+uart_send
+print
+get_systime
+uart_try_receive
+uart_receive
+iflash_init
+iflash_erase
+iflash_write
+reset
+__gnu_thumb1_case_sqi

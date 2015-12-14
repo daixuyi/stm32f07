@@ -1,0 +1,282 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"main.c"
+  14              		.section	.text.default_routine,"ax",%progbits
+  15              		.align	1
+  16              		.code	16
+  17              		.thumb_func
+  19              	default_routine:
+  20 0000 00B5     		push	{lr}
+  21              	.L2:
+  22 0002 FEE7     		b	.L2
+  24              		.section	.text.dummy,"ax",%progbits
+  25              		.align	1
+  26              		.code	16
+  27              		.thumb_func
+  29              	dummy:
+  30              		@ sp needed for prologue
+  31 0000 7047     		bx	lr
+  33              		.section	.text.systick_routine,"ax",%progbits
+  34              		.align	1
+  35              		.code	16
+  36              		.thumb_func
+  38              	systick_routine:
+  39 0000 00B5     		push	{lr}
+  40 0002 084B     		ldr	r3, .L6
+  41 0004 0849     		ldr	r1, .L6+4
+  42 0006 1A68     		ldr	r2, [r3]
+  43 0008 0132     		add	r2, r2, #1
+  44 000a 1A60     		str	r2, [r3]
+  45 000c 8A42     		cmp	r2, r1
+  46 000e 08D9     		bls	.L4
+  47 0010 0021     		mov	r1, #0
+  48 0012 1960     		str	r1, [r3]
+  49 0014 054B     		ldr	r3, .L6+8
+  50 0016 0648     		ldr	r0, .L6+12
+  51 0018 1A68     		ldr	r2, [r3]
+  52 001a 8242     		cmp	r2, r0
+  53 001c 01D8     		bhi	.L4
+  54 001e 0132     		add	r2, r2, #1
+  55 0020 1A60     		str	r2, [r3]
+  56              	.L4:
+  57              		@ sp needed for prologue
+  58 0022 00BD     		pop	{pc}
+  59              	.L7:
+  60              		.align	2
+  61              	.L6:
+  62 0024 00000000 		.word	.LANCHOR0
+  63 0028 E7030000 		.word	999
+  64 002c 00000000 		.word	.LANCHOR1
+  65 0030 57020000 		.word	599
+  67              		.section	.text.startup.main,"ax",%progbits
+  68              		.align	1
+  69              		.global	main
+  70              		.code	16
+  71              		.thumb_func
+  73              	main:
+  74 0000 10B5     		push	{r4, lr}
+  75 0002 FFF7FEFF 		bl	hw_init
+  76 0006 1048     		ldr	r0, .L11
+  77 0008 FFF7FEFF 		bl	print
+  78 000c 0F4C     		ldr	r4, .L11+4
+  79 000e 201C     		mov	r0, r4
+  80 0010 FFF7FEFF 		bl	print
+  81 0014 0E48     		ldr	r0, .L11+8
+  82 0016 FFF7FEFF 		bl	print
+  83 001a 0E48     		ldr	r0, .L11+12
+  84 001c FFF7FEFF 		bl	print
+  85 0020 201C     		mov	r0, r4
+  86 0022 FFF7FEFF 		bl	print
+  87 0026 FFF7FEFF 		bl	systick_open
+  88 002a FFF7FEFF 		bl	uart_update
+  89 002e 0128     		cmp	r0, #1
+  90 0030 06D1     		bne	.L10
+  91 0032 FFF7FEFF 		bl	systick_stop
+  92 0036 0848     		ldr	r0, .L11+16
+  93 0038 FFF7FEFF 		bl	print
+  94 003c 0020     		mov	r0, #0
+  95 003e 01E0     		b	.L9
+  96              	.L10:
+  97 0040 0120     		mov	r0, #1
+  98 0042 4042     		neg	r0, r0
+  99              	.L9:
+ 100              		@ sp needed for prologue
+ 101 0044 10BD     		pop	{r4, pc}
+ 102              	.L12:
+ 103 0046 C046     		.align	2
+ 104              	.L11:
+ 105 0048 00000000 		.word	.LC2
+ 106 004c 03000000 		.word	.LC4
+ 107 0050 33000000 		.word	.LC6
+ 108 0054 63000000 		.word	.LC8
+ 109 0058 93000000 		.word	.LC10
+ 111              		.section	.text.reset_routine,"ax",%progbits
+ 112              		.align	1
+ 113              		.code	16
+ 114              		.thumb_func
+ 116              	reset_routine:
+ 117 0000 08B5     		push	{r3, lr}
+ 118 0002 094A     		ldr	r2, .L18
+ 119 0004 094B     		ldr	r3, .L18+4
+ 120 0006 01E0     		b	.L14
+ 121              	.L15:
+ 122 0008 02CA     		ldmia	r2!, {r1}
+ 123 000a 02C3     		stmia	r3!, {r1}
+ 124              	.L14:
+ 125 000c 0848     		ldr	r0, .L18+8
+ 126 000e 8342     		cmp	r3, r0
+ 127 0010 FAD3     		bcc	.L15
+ 128 0012 084B     		ldr	r3, .L18+12
+ 129 0014 01E0     		b	.L16
+ 130              	.L17:
+ 131 0016 0022     		mov	r2, #0
+ 132 0018 04C3     		stmia	r3!, {r2}
+ 133              	.L16:
+ 134 001a 0749     		ldr	r1, .L18+16
+ 135 001c 8B42     		cmp	r3, r1
+ 136 001e FAD3     		bcc	.L17
+ 137 0020 FFF7FEFF 		bl	main
+ 138              		@ sp needed for prologue
+ 139 0024 08BD     		pop	{r3, pc}
+ 140              	.L19:
+ 141 0026 C046     		.align	2
+ 142              	.L18:
+ 143 0028 00000000 		.word	_etext
+ 144 002c 00000000 		.word	_data
+ 145 0030 00000000 		.word	_edata
+ 146 0034 00000000 		.word	_bss
+ 147 0038 00000000 		.word	_ebss
+ 149              		.section	.text.get_systime,"ax",%progbits
+ 150              		.align	1
+ 151              		.global	get_systime
+ 152              		.code	16
+ 153              		.thumb_func
+ 155              	get_systime:
+ 156 0000 014B     		ldr	r3, .L21
+ 157              		@ sp needed for prologue
+ 158 0002 1868     		ldr	r0, [r3]
+ 159 0004 7047     		bx	lr
+ 160              	.L22:
+ 161 0006 C046     		.align	2
+ 162              	.L21:
+ 163 0008 00000000 		.word	.LANCHOR1
+ 165              		.global	vector_table
+ 166              		.section	.bss.the_run_time,"aw",%nobits
+ 167              		.align	2
+ 168              		.set	.LANCHOR1,. + 0
+ 171              	the_run_time:
+ 172 0000 00000000 		.space	4
+ 173              		.section	.isr_vector,"a",%progbits
+ 174              		.align	2
+ 177              	vector_table:
+ 178 0000 00100000 		.word	the_cstack+4096
+ 179 0004 00000000 		.word	reset_routine
+ 180 0008 00000000 		.word	default_routine
+ 181 000c 00000000 		.word	default_routine
+ 182 0010 00000000 		.word	default_routine
+ 183 0014 00000000 		.word	default_routine
+ 184 0018 00000000 		.word	systick_routine
+ 185 001c 00000000 		.word	dummy
+ 186 0020 00000000 		.word	dummy
+ 187 0024 00000000 		.word	dummy
+ 188 0028 00000000 		.word	dummy
+ 189 002c 00000000 		.word	dummy
+ 190 0030 00000000 		.word	dummy
+ 191 0034 00000000 		.word	dummy
+ 192 0038 00000000 		.word	dummy
+ 193 003c 00000000 		.word	dummy
+ 194 0040 00000000 		.word	dummy
+ 195 0044 00000000 		.word	dummy
+ 196 0048 00000000 		.word	dummy
+ 197 004c 00000000 		.word	dummy
+ 198 0050 00000000 		.word	dummy
+ 199 0054 00000000 		.word	dummy
+ 200 0058 00000000 		.word	dummy
+ 201 005c 00000000 		.word	dummy
+ 202 0060 00000000 		.word	dummy
+ 203 0064 00000000 		.word	dummy
+ 204 0068 00000000 		.word	dummy
+ 205 006c 00000000 		.word	dummy
+ 206 0070 00000000 		.word	dummy
+ 207 0074 00000000 		.word	dummy
+ 208 0078 00000000 		.word	dummy
+ 209 007c 00000000 		.word	dummy
+ 210 0080 00000000 		.word	dummy
+ 211 0084 00000000 		.word	dummy
+ 212 0088 00000000 		.word	dummy
+ 213 008c 00000000 		.word	dummy
+ 214 0090 00000000 		.word	dummy
+ 215 0094 00000000 		.word	dummy
+ 216 0098 00000000 		.word	dummy
+ 217              		.section	.stackarea,"aw",%progbits
+ 218              		.align	2
+ 221              	the_cstack:
+ 222 0000 00000000 		.space	4096
+ 222      00000000 
+ 222      00000000 
+ 222      00000000 
+ 222      00000000 
+ 223              		.section	.bss.ms.4053,"aw",%nobits
+ 224              		.align	2
+ 225              		.set	.LANCHOR0,. + 0
+ 228              	ms.4053:
+ 229 0000 00000000 		.space	4
+ 230              		.section	.rodata.str1.1,"aMS",%progbits,1
+ 231              	.LC2:
+ 232 0000 0D0A00   		.ascii	"\015\012\000"
+ 233              	.LC4:
+ 234 0003 2A2A2A2A 		.ascii	"*********************************************\015\012"
+ 234      2A2A2A2A 
+ 234      2A2A2A2A 
+ 234      2A2A2A2A 
+ 234      2A2A2A2A 
+ 235 0032 00       		.ascii	"\000"
+ 236              	.LC6:
+ 237 0033 2A202020 		.ascii	"*               BootLoader v1.1             *\015\012"
+ 237      20202020 
+ 237      20202020 
+ 237      20202020 
+ 237      426F6F74 
+ 238 0062 00       		.ascii	"\000"
+ 239              	.LC8:
+ 240 0063 2A202020 		.ascii	"*            CopyRight 2013 mx207.          *\015\012"
+ 240      20202020 
+ 240      20202020 
+ 240      20436F70 
+ 240      79526967 
+ 241 0092 00       		.ascii	"\000"
+ 242              	.LC10:
+ 243 0093 456E7465 		.ascii	"Enter application ...\015\012\000"
+ 243      72206170 
+ 243      706C6963 
+ 243      6174696F 
+ 243      6E202E2E 
+ 244              		.ident	"GCC: (Sourcery CodeBench Lite 2011.09-69) 4.6.1"
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\cc20GBK5.s:15     .text.default_routine:00000000 $t
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\cc20GBK5.s:19     .text.default_routine:00000000 default_routine
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\cc20GBK5.s:25     .text.dummy:00000000 $t
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\cc20GBK5.s:29     .text.dummy:00000000 dummy
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\cc20GBK5.s:34     .text.systick_routine:00000000 $t
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\cc20GBK5.s:38     .text.systick_routine:00000000 systick_routine
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\cc20GBK5.s:62     .text.systick_routine:00000024 $d
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\cc20GBK5.s:68     .text.startup.main:00000000 $t
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\cc20GBK5.s:73     .text.startup.main:00000000 main
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\cc20GBK5.s:105    .text.startup.main:00000048 $d
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\cc20GBK5.s:112    .text.reset_routine:00000000 $t
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\cc20GBK5.s:116    .text.reset_routine:00000000 reset_routine
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\cc20GBK5.s:143    .text.reset_routine:00000028 $d
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\cc20GBK5.s:150    .text.get_systime:00000000 $t
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\cc20GBK5.s:155    .text.get_systime:00000000 get_systime
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\cc20GBK5.s:163    .text.get_systime:00000008 $d
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\cc20GBK5.s:177    .isr_vector:00000000 vector_table
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\cc20GBK5.s:167    .bss.the_run_time:00000000 $d
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\cc20GBK5.s:171    .bss.the_run_time:00000000 the_run_time
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\cc20GBK5.s:174    .isr_vector:00000000 $d
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\cc20GBK5.s:221    .stackarea:00000000 the_cstack
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\cc20GBK5.s:218    .stackarea:00000000 $d
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\cc20GBK5.s:224    .bss.ms.4053:00000000 $d
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\cc20GBK5.s:228    .bss.ms.4053:00000000 ms.4053
+
+UNDEFINED SYMBOLS
+hw_init
+print
+systick_open
+uart_update
+systick_stop
+_etext
+_data
+_edata
+_bss
+_ebss
